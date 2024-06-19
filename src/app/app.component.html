@@ -1,4 +1,4 @@
-<form [formGroup]="phoneForm" (keydown.enter)="onSubmit()">
+<form [formGroup]="phoneForm" (ngSubmit)="onSubmit()" (keydown.enter)="onSubmit()">
   <ngx-intl-tel-input
     [cssClass]="'custom'"
     [selectedCountryISO]="country"
@@ -7,17 +7,18 @@
     [enablePlaceholder]="true"
     [searchCountryFlag]="true"
     [selectFirstCountry]="false"
-    [phoneValidation]="true"
+    [phoneValidation]="false"
     name="phone"
     formControlName="phone"
   ></ngx-intl-tel-input>
   <div *ngIf="phoneForm.get('phone')?.errors && phoneForm.get('phone')?.touched" class="error-message">
     <div *ngIf="phoneForm.get('phone')?.hasError('required')">Phone number is required</div>
-    <div *ngIf="phoneForm.get('phone')?.hasError('invalidPhoneNumber')">Invalid phone number</div>
+    <div *ngIf="phoneForm.get('phone')?.hasError('invalidPhone')">Invalid phone number</div>
   </div>
   <div>
     <pre>{{ phoneForm.value | json }}</pre>
-    <div><pre>phoneControlIsValid {{ phoneControlIsValid }}</pre></div>
-   <div><pre>form invalid {{ phoneForm.invalid }}</pre></div>
+    <div><pre>phoneNumberIsValid {{ numberDetails?.valid }}</pre></div>
+   <div><pre>form valid {{ !phoneForm.invalid }}</pre></div>
   </div>
+  <button type="submit" [disabled]="phoneForm.invalid">Submit</button>
 </form>
